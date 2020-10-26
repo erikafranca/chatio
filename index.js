@@ -2,7 +2,6 @@ const express = require('express')
 const app = express()
 var http = require("http").createServer(app)
 let io = require('socket.io')(http)
-
 app.set('view engine', 'ejs')
 app.use(express.static(__dirname + '/public'));
 

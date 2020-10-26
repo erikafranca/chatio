@@ -57,7 +57,7 @@
             var msg = msgField.value
             var user = userField.value
             socket.emit("msg", { msg: msg, user: user })
-            console.log(msg + " " + user)
+            
         }
 
         btn.addEventListener("click", disparar)
