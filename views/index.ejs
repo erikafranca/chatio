@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="pt-br">
+
+<head>
+    <title>chat.io</title>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+
+        <div id="chat" class="col-md-6">
+            <h1>chat.io</h1>
+            <p>basic chat application built with socket.io</p>
+            <div class="input-group mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="basic-addon1">@</span>
+                </div>
+                <input type="text" id="user" class=" form-control " placeholder="Username " aria-label="Username "
+                    aria-describedby="basic-addon1 ">
+            </div>
+            <div class="input-group mb-3 ">
+                <input type="text" class="form-control " name=" " id="msg" placeholder="Digite sua mensagem ">
+                <div class="input-group-prepend ">
+                    <button class="btn btn-success " type="button " id="btn">Enviar</button>
+                </div>
+            </div>
+            <textarea class="form-control " disabled name=" " id="msgarea" cols="30 " rows="10 "></textarea>
+        </div>
+    </div>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js "
+        integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo "
+        crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js "
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1 "
+        crossorigin="anonymous "></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js "
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM "
+        crossorigin="anonymous "></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/1.4.5/socket.io.min.js "></script>
+    <script>
+        var socket = io("http://localhost:8080")
+        var btn = document.querySelector("#btn")
+        var msgField = document.querySelector("#msg")
+        var userField = document.querySelector("#user")
+
+        const disparar = () => {
+            var msg = msgField.value
+            var user = userField.value
+            socket.emit("msg", { msg: msg, user: user })
+            console.log(msg + " " + user)
+        }
+
+        btn.addEventListener("click", disparar)
+        msgField.addEventListener("keyup", e => {
+            e.preventDefault()
+            if (e.keyCode == '13') {
+                btn.click()
+            }
+        })
+
+        socket.on("showmsg", (data) => {
+            if (data.msg != "") {
+                var chat = document.querySelector("#msgarea")
+                chat.innerHTML += "\n" + data.user + ": " + data.msg
+                setTimeout(() => {
+                    chat.innerHTML += "\nServidor: Olá, te atenderemos em breve!"
+                }, 2000)
+            } else {
+                var chat = document.querySelector("#msgarea")
+                chat.innerHTML = "Preencha os dados para começar"
+            }
+        })
+    </script>
+</body>
+
+</html>
