@@ -13,7 +13,7 @@ io.on("connection", (socket) => {
         console.log('cliente desconectado' + socket.id)
     })
     socket.on("msg", (data) => {
-        socket.emit("showmsg", data)
+        io.emit("showmsg", data)
         console.log(data)
         })
     })

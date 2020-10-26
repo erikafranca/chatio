@@ -71,10 +71,8 @@
         socket.on("showmsg", (data) => {
             if (data.msg != "") {
                 var chat = document.querySelector("#msgarea")
-                chat.innerHTML += "\n" + data.user + ": " + data.msg
-                setTimeout(() => {
-                    chat.innerHTML += "\nServidor: Olá, te atenderemos em breve!"
-                }, 2000)
+                chat.innerHTML+= "\n"+ data.user + ": " + data.msg
+
             } else {
                 var chat = document.querySelector("#msgarea")
                 chat.innerHTML = "Preencha os dados para começar"
